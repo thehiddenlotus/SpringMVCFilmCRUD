@@ -163,57 +163,38 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		return lang;
 	}
 
-	public Film createFilm(Film film) {
-		Connection conn = null;
+	public void createFilm(Film film) {
+		String sql = "INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, "
+				+ "length, replacement_cost, rating, special_features) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		int result = 0;
 		try {
-			conn = DriverManager.getConnection(url, user, pass);
-			conn.setAutoCommit(false); // START TRANSACTION
-			String sql = "INSERT INTO (film id, title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features )"
-					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+			Connection conn = DriverManager.getConnection(url, user, pass);
 			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			stmt.setInt(1, film.getId());
-			stmt.setString(2, film.getTitle());
-			stmt.setString(3, film.getDescription());
-			stmt.setInt(4, film.getReleaseYear());
-			stmt.setInt(5, film.getLanguageID());
-			stmt.setInt(6, film.getRentalDuration());
-			stmt.setDouble(7, film.getRentalRate());
-			stmt.setInt(8, film.getLength());
-			stmt.setDouble(9, film.getReplacementCost());
-			stmt.setString(10, film.getRating());
-			stmt.setString(11, film.getSpecialFeatures());
-			int updateCount = stmt.executeUpdate();
-			if (updateCount == 1) {
-				ResultSet keys = stmt.getGeneratedKeys();
-				if (keys.next()) {
-					int newFilmId = keys.getInt(1);
-					film.setId(newFilmId);
-					if (film.getActors() != null && film.getActors().size() > 0) {
-						sql = "INSERT INTO film_actor (film_id, actor_id) VALUES (?,?)";
-						stmt = conn.prepareStatement(sql);
-						for (Actor actor : film.getActors()) {
-							stmt.setInt(1, actor.getId());
-							stmt.setInt(2, newFilmId);
-							updateCount = stmt.executeUpdate();
-						}
-					}
+			stmt.setString(1, film.getTitle());
+			stmt.setString(2, film.getDescription());
+			stmt.setInt(3, film.getReleaseYear());
+			stmt.setInt(4, film.getLanguageID());
+			stmt.setDouble(5, film.getRentalDuration());
+			stmt.setDouble(6, film.getRentalRate());
+			stmt.setDouble(7, film.getLength());
+			stmt.setDouble(8, film.getReplacementCost());
+			stmt.setString(9, film.getRating());
+			stmt.setString(10, film.getSpecialFeatures());
+			conn.setAutoCommit(false);
+			result = stmt.executeUpdate();
+			if (result == 1) {
+				ResultSet rs = stmt.getGeneratedKeys();
+				if (rs.next()) {
+					film.setId(rs.getInt(1));
+					conn.commit();
 				}
-			} else {
-				film = null;
+				rs.close();
+				stmt.close();
+				conn.close();
 			}
-			conn.commit(); // COMMIT TRANSACTION
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-			if (conn != null) {
-				try {
-					conn.rollback();
-				} catch (SQLException sqle2) {
-					System.err.println("Error trying to rollback");
-				}
-			}
-			throw new RuntimeException("Error inserting film " + film);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return film;
 	}
 
 	public boolean saveFilm(Film film) {
@@ -257,14 +238,14 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		return true;
 	}
 
-	public boolean deleteFilm(Film film) {
+	public boolean deleteFilm(int id) {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url, user, pass);
 			conn.setAutoCommit(false); // START TRANSACTION
 			String sql = "DELETE FROM film WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, film.getId());
+			stmt.setInt(1, id);
 			int updateCount = stmt.executeUpdate();
 //			sql = "DELETE FROM actor WHERE id = ?";
 //			stmt = conn.prepareStatement(sql);

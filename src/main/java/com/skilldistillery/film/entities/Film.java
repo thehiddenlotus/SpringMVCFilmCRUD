@@ -155,9 +155,9 @@ public class Film {
 	public String toString() {
 		String result = "Film ID:" + id + " " + title + " " + releaseYear + " " + length + "min " + rating + " " + lang
 				+ "\n" + description + "\nActors: \n";
-		for (Actor a : actors) {
-			result += a + "\n";
-		}
+//		for (Actor a : actors) {
+//			result += a + "\n";
+//		}
 		return result;
 	}
 

@@ -11,7 +11,7 @@
 </head>
 <body>
 	<h2>Search films by ID</h2>
-	<form:form action="filmByID.do" method="POST" modelAttribute="user">
+	<form:form action="filmByID.do" method="POST">
 		<form:label path="id">ID:</form:label>
 		<form:input path="id" />
 		<form:errors path="id" />

@@ -50,5 +50,32 @@ public class FilmController {
 		mv.addObject("films", films);
 		return mv;
 	}
+
+	@RequestMapping(path = "addFilm.do", method = RequestMethod.GET)
+	public ModelAndView addFilm(Film film) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/addFilmForm.jsp");
+		mv.addObject("film", new Film());
+		return mv;
+	}
+	
+	@RequestMapping(path = "addFilm.do", method = RequestMethod.POST)
+	public ModelAndView postFilm(Film film) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/filmDisplay.jsp");
+		System.out.println(film);
+		filmDAO.createFilm(film);
+		return mv;
+	}
+	
+	@RequestMapping(path = "deleteFilm.do", method = RequestMethod.POST, params="id")
+	public ModelAndView deleteFilm(int id) {
+		boolean delete = filmDAO.deleteFilm(id);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/filmDeleted.jsp");
+		mv.addObject("delete", delete);
+		mv.addObject("filmID", id);
+		return mv;
+	}
 	
 }

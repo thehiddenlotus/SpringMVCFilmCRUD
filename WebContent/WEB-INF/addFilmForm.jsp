@@ -11,7 +11,7 @@
 </head>
 <body>
 	<h2>Add a film</h2>
-	<form:form action="addAFilm.do" method="POST" modelAttribute="user">
+	<form:form action="addFilm.do" method="POST" modelAttribute="film" >
 		<form:label path="title">Title:</form:label>
 		<form:input path="title" />
 		<form:errors path="title" />
@@ -24,9 +24,15 @@
 		<form:input path="releaseYear" />
 		<form:errors path="releaseYear" />
 		<br />
-		<form:label path="languageID">Language ID:</form:label>
-		<form:password path="languageID" />
-		<form:errors path="languageID" />
+		<form:label path="languageID">Language: </form:label>
+		<form:select path="languageID">
+			<form:option value="1">English</form:option>
+			<form:option value="2">Italian</form:option>
+			<form:option value="3">Japanese</form:option>
+			<form:option value="4">Mandarin</form:option>
+			<form:option value="5">French</form:option>
+			<form:option value="6">German</form:option>
+		</form:select>
 		<br />
 		<form:label path="length">Length:</form:label>
 		<form:input path="length" />
