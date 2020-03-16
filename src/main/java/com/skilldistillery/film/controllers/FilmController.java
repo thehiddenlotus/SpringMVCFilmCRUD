@@ -18,29 +18,29 @@ public class FilmController {
 	@Autowired
 	private FilmDAOJDBCImpl filmDAO;
 	
-	@RequestMapping(path="filmByID.do", method=RequestMethod.GET)
-	public ModelAndView getID() {
-		Film film = new Film();
-		ModelAndView mv = new ModelAndView("WEB-INF/filmIDForm.jsp", "film", film);
-		return mv;
-	}
+//	@RequestMapping(path="filmByID.do", method=RequestMethod.GET)
+//	public ModelAndView getID() {
+//		Film film = new Film();
+//		ModelAndView mv = new ModelAndView("WEB-INF/filmDisplay.jsp", "film", film);
+//		return mv;
+//	}
 	
-	@RequestMapping(path = "filmByID.do", method = RequestMethod.POST)
-	public ModelAndView getFilmById(@RequestParam("id") int filmId) {
+	@RequestMapping(path = "filmByID.do", method = RequestMethod.GET)
+	public ModelAndView getFilmById(int id) {
 		ModelAndView mv = new ModelAndView();
-		Film film = filmDAO.findFilmById(filmId);
-		mv.addObject("film", film);
-		System.out.println(film);
+//		Film film = filmDAO.findFilmById(id);
+//		System.out.println(film);
 		mv.setViewName("WEB-INF/filmDisplay.jsp");
+		mv.addObject("film", filmDAO.findFilmById(id));
 		return mv;
 	}
 
-	@RequestMapping(path="filmByKeyword.do", method=RequestMethod.GET)
-	public ModelAndView getKeyword() {
-		Film film = new Film();
-		ModelAndView mv = new ModelAndView("WEB-INF/filmIDForm.jsp", "film", film);
-		return mv;
-	}
+//	@RequestMapping(path="filmByKeyword.do", method=RequestMethod.GET)
+//	public ModelAndView getKeyword() {
+//		Film film = new Film();
+//		ModelAndView mv = new ModelAndView("WEB-INF/filmKeywordForm.jsp", "film", film);
+//		return mv;
+//	}
 	
 	@RequestMapping(path = "filmByKeyword.do", method = RequestMethod.POST)
 	public ModelAndView getFilmByKeyword(@RequestParam("keyword") String keyword) {

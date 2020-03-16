@@ -5,15 +5,25 @@
 <title>index.html</title>
 </head>
 <body>
-	<h2>Search Films</h2>
-	<form action="filmByID.do" method="GET">
-		<input type="submit" value="Search by ID" />
-	</form>
-	<form action="filmByKeyword.do" method="GET">
-		<input type="submit" value="Search by keyword" />
-	</form>
-	<form action="addAFilm.do" method="GET">
-		<input type="submit" value="Add a Film" />
-	</form>
+	<div class="form1">
+		<form class="searchButton" action="filmByID.do" method="GET">
+			<input type="number" name="id" />
+			<button type="submit" class="btn btn-primary " value="Search by Id">Search
+				by Id</button>
+		</form>
+	</div>
+	<div class="form2">
+		<form class="searchButton" action="filmByKeyword.do" method="GET">
+			<input type="text" name="keyword" />
+			<button type="submit" class="btn btn-primary "
+				value="Search by Keyword">Search by keyword</button>
+		</form>
+	</div>
+	<div class="form3">
+		<form class="searchButton" action="addAFilm.do">
+			<button type="submit" class="btn btn-primary " value="Create Film">Create
+				New Film</button>
+		</form>
+	</div>
 </body>
 </html>

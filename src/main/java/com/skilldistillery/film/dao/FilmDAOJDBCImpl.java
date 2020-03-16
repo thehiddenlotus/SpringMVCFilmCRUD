@@ -273,7 +273,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 				}
 			}
 			return false;
-		}S
+		}
 		return true;
 	}
 
