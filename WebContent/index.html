@@ -5,8 +5,15 @@
 <title>index.html</title>
 </head>
 <body>
-	<a href="filmID.html">Find film by ID</a><br/>
-	<a href="searchForm.html">Search Films By Keyword</a><br/>
-	<a href="addFilmForm.html">Add a Film</a><br/>
+	<h2>Search Films</h2>
+	<form action="filmByID.do" method="GET">
+		<input type="submit" value="Search by ID" />
+	</form>
+	<form action="filmByKeyword.do" method="GET">
+		<input type="submit" value="Search by keyword" />
+	</form>
+	<form action="addAFilm.do" method="GET">
+		<input type="submit" value="Add a Film" />
+	</form>
 </body>
 </html>

@@ -41,6 +41,10 @@ public class Film {
 
 	}
 
+	public Film() {
+		
+	}
+
 	public ArrayList<Actor> getActors() {
 		return actors;
 	}
