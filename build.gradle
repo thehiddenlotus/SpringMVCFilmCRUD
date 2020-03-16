@@ -36,7 +36,8 @@ dependencies {
     compile group: 'javax.servlet', name: 'jstl', version:'1.2'
     
     // MySQL Driver
-    compile "mysql:mysql-connector-java:$mySqlConnectorVersion"
+//    compile "mysql:mysql-connector-java:$mySqlConnectorVersion"
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
     
     // For Spring Validation:
     compile group: 'org.hibernate.validator', name: 'hibernate-validator', version:'6.0.16.Final'

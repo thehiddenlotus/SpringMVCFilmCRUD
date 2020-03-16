@@ -17,15 +17,23 @@ import com.skilldistillery.film.entities.Film;
 @Component
 public class FilmDAOJDBCImpl implements FilmDAO {
 
-	private static final String URL = "jdbc:mysql://localhost:3306/sdvid?useSSL=false";
+	private static final String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false";
 	private String user = "student";
 	private String pass = "student";
+	
+	public FilmDAOJDBCImpl() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public Film findFilmById(int filmID) {
 		Film film = null;
 		try {
-			Connection conn = DriverManager.getConnection(URL, user, pass);
+			Connection conn = DriverManager.getConnection(url, user, pass);
 			String sql = "SELECT id, title, description, release_year, language_id, rental_duration, "
 					+ " rental_rate, length, replacement_cost, rating, special_features " + " FROM film WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -60,7 +68,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	public Actor findActorById(int actorID) {
 		Actor actor = null;
 		try {
-			Connection conn = DriverManager.getConnection(URL, user, pass);
+			Connection conn = DriverManager.getConnection(url, user, pass);
 			String sql = "SELECT id, first_name, last_name FROM actor WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, actorID);
@@ -77,7 +85,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	public List<Actor> findActorsByFilmId(int filmID) {
 		List<Actor> actors = new ArrayList<>();
 		try {
-			Connection conn = DriverManager.getConnection(URL, user, pass);
+			Connection conn = DriverManager.getConnection(url, user, pass);
 			String sql = "SELECT id, first_name, last_name FROM actor JOIN film_actor "
 					+ "ON actor.id = film_actor.actor_id WHERE film_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -105,7 +113,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		Film film = null;
 		keyword = "%" + keyword + "%";
 		try {
-			Connection conn = DriverManager.getConnection(URL, user, pass);
+			Connection conn = DriverManager.getConnection(url, user, pass);
 			String sql = "SELECT id, title, description, release_year, language_id, rental_duration, "
 					+ " rental_rate, length, replacement_cost, rating, special_features "
 					+ " FROM film WHERE title LIKE ? OR description LIKE ?";
@@ -141,7 +149,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	public String findLanguage(int filmId) {
 		String lang = null;
 		try {
-			Connection conn = DriverManager.getConnection(URL, user, pass);
+			Connection conn = DriverManager.getConnection(url, user, pass);
 			String sql = "SELECT language.name FROM language JOIN film ON language.id = film.language_id WHERE film.id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
@@ -158,7 +166,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	public Film createFilm(Film film) {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(URL, user, pass);
+			conn = DriverManager.getConnection(url, user, pass);
 			conn.setAutoCommit(false); // START TRANSACTION
 			String sql = "INSERT INTO (film id, title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features )"
 					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
@@ -211,7 +219,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	public boolean saveFilm(Film film) {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(URL, user, pass);
+			conn = DriverManager.getConnection(url, user, pass);
 			conn.setAutoCommit(false); // START TRANSACTION
 			String sql = "UPDATE film SET title=?, rating=? " + " WHERE id=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -252,7 +260,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	public boolean deleteFilm(Film film) {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection(URL, user, pass);
+			conn = DriverManager.getConnection(url, user, pass);
 			conn.setAutoCommit(false); // START TRANSACTION
 			String sql = "DELETE FROM film WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);

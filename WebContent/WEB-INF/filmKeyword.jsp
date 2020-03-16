@@ -18,7 +18,7 @@
 					<tr>
 						<td>${film.title}</td>
 						<td>${film.rating}</td>
-						<td>${film.year}</td>
+						<td>${film.releaseYear}</td>
 						<td>${film.rentalRate}</td>
 						<td>${film.rentalDuration}</td>
 					</tr>
